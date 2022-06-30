@@ -8,7 +8,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const [row] = await connection.execute('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
-
+  if (row.length < 1) return [];
   return row;
 };
 
