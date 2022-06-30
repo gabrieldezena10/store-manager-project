@@ -68,7 +68,8 @@ describe('Calling getById from controller', () => {
 
     it('returns message "Product not found"', async () => {
       await productsControllers.getById(request, response);
-      expect(response.json.calledWith('Product not found')).to.be.equal(true);
+      expect(response.json.calledWith({ message: "Product not found" })).to.be.equal(true);
+      
     });
   });
 });
