@@ -25,8 +25,11 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
-    const data = await salesService.create(productId, quantity);
+    const salesArr = req.body;
+    const data = await salesService.create(salesArr);
+    if (data.error) {
+      return res.status(data.code).json({ message: data.error });
+    }
     return res.status(httpStatusCode.CREATED).json(data);
   } catch (error) {
     console.log(error.message);
