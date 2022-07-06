@@ -27,15 +27,27 @@ const update = async (id, name) => {
       code: isNameValid.code,
     };
   }
-  const idAlreadyExists = await checkId(id);
-  if (idAlreadyExists) {
+  const idDoNotExists = await checkId(id);
+  if (idDoNotExists) {
     return {
-        error: idAlreadyExists.error,
-        code: idAlreadyExists.code,
+        error: idDoNotExists.error,
+        code: idDoNotExists.code,
     };
   }
   await productsModel.update(id, name);
   return { id, name };
+};
+
+const exclude = async (id) => {
+  const idDoNotExists = await checkId(id);
+  if (idDoNotExists) {
+    return {
+      error: idDoNotExists.error,
+      code: idDoNotExists.code,
+    };
+  }
+  await productsModel.exclude(id);
+  return { id };
 };
 
 module.exports = {
@@ -43,4 +55,5 @@ module.exports = {
   getById,
   create,
   update,
+  exclude,
 };
