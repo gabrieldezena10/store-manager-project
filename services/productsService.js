@@ -1,4 +1,5 @@
 const productsModel = require('../models/productsModel');
+const { checkId, checkName } = require('../helpers/productValidation');
 
 const getAll = async () => {
   const result = await productsModel.getAll();
@@ -7,7 +8,6 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const result = await productsModel.getById(id);
-  if (result.length < 1) return [];
   return result;
 };
 
@@ -19,8 +19,28 @@ const create = async (name) => {
   return [];
 };
 
+const update = async (id, name) => {
+  const isNameValid = await checkName(name);
+  if (isNameValid) {
+    return {
+      error: isNameValid.error,
+      code: isNameValid.code,
+    };
+  }
+  const idAlreadyExists = await checkId(id);
+  if (idAlreadyExists) {
+    return {
+        error: idAlreadyExists.error,
+        code: idAlreadyExists.code,
+    };
+  }
+  await productsModel.update(id, name);
+  return { id, name };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
