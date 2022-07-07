@@ -1,5 +1,6 @@
 const productsModel = require('../models/productsModel');
 const httpStatusCode = require('./httpStatusCode');
+const salesModel = require('../models/salesModel');
 
 const checkQuantity = async (orderArr) => {
   const isQuantityNotValidNumber = orderArr.find((item) => item.quantity <= 0);
@@ -41,7 +42,18 @@ const checkProductId = async (orderArr) => {
   return false;
 };
 
+const checkSaleId = async (id) => {
+  const isIdValid = await salesModel.getById(id);
+  if (!isIdValid || isIdValid.length < 1) {
+    return {
+      error: 'Sale not found',
+      code: httpStatusCode.NOT_FOUND,
+    };
+  }
+};
+
 module.exports = {
   checkQuantity,
   checkProductId,
+  checkSaleId,
 };

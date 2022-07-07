@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const { checkQuantity, checkProductId } = require('../helpers/salesValidation');
+const { checkQuantity, checkProductId, checkSaleId } = require('../helpers/salesValidation');
 
 const getAll = async () => {
   const result = await salesModel.getAll();
@@ -30,8 +30,21 @@ const create = async (orderArr) => {
   return result;
 };
 
+const exclude = async (id) => {
+  const idNotFound = await checkSaleId(id);
+  if (idNotFound) {
+    return {
+      error: idNotFound.error,
+      code: idNotFound.code,
+    };
+  }
+  await salesModel.exclude(id);
+  return { id };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  exclude,
 };

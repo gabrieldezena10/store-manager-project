@@ -36,8 +36,22 @@ const create = async (req, res) => {
   }
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await salesService.exclude(id);
+    if (result.error) {
+      return res.status(result.code).json({ message: result.error });
+    }
+    return res.status(httpStatusCode.NO_CONTENT).json(result);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  exclude,
 };

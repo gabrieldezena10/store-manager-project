@@ -19,18 +19,14 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const query = `SELECT S.date, SL.product_id, SL.quantity
+  const query = `SELECT S.date, SL.product_id AS productId, SL.quantity
   FROM StoreManager.sales AS S
   INNER JOIN StoreManager.sales_products AS SL
   ON S.id = SL.sale_id
   WHERE S.id = ?
   ORDER BY S.id, SL.product_id;`;
   const [rows] = await connection.execute(query, [id]);
-  return rows.map(({ date, product_id: productId, quantity }) => ({
-    date,
-    productId,
-    quantity,
-  }));
+  return rows;
 };
 
 const addSalesID = async () => {
@@ -41,7 +37,6 @@ const addSalesID = async () => {
 
 const create = async (salesArr) => {
   const saleId = await addSalesID();
-
   const query = `INSERT INTO 
   StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
   
@@ -56,9 +51,16 @@ const create = async (salesArr) => {
   };
 };
 
+const exclude = async (id) => {
+  const query = 'DELETE FROM StoreManager.sales WHERE id = ?';
+  const [data] = await connection.execute(query, [id]);
+
+  return data;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
-  addSalesID,
+  exclude,
 };
