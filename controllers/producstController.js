@@ -1,7 +1,7 @@
 const productsService = require('../services/productsService');
 const httpStatusCodes = require('../helpers/httpStatusCode');
 
-const getAll = async (req, res) => {
+const getAll = async (_req, res) => {
   try {
     const data = await productsService.getAll();
     res.status(httpStatusCodes.OK).json(data);

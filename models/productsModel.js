@@ -25,16 +25,20 @@ const create = async (name) => {
 
 const update = async (id, name) => {
   const query = 'UPDATE StoreManager.products SET name = ? WHERE id = ?;';
-  const [data] = await connection.execute(query, [name, id]);
+  await connection.execute(query, [name, id]);
 
-  return data;
+  return { id, name };
+  // return data; foi modificado por conta dos testes
+
   // Deu problema nos testes
   // return data.affectedRows;
 };
 
 const exclude = async (id) => {
   const query = 'DELETE FROM StoreManager.products WHERE id = ?;';
-  await connection.execute(query, [id]);
+  const [data] = await connection.execute(query, [id]);
+
+  return data;
 };
 
 module.exports = {

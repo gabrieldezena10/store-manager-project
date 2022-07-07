@@ -34,8 +34,8 @@ const update = async (id, name) => {
         code: idDoNotExists.code,
     };
   }
-  await productsModel.update(id, name);
-  return { id, name };
+  const result = await productsModel.update(id, name);
+  return result;
 };
 
 const exclude = async (id) => {
