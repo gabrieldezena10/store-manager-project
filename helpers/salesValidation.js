@@ -3,14 +3,14 @@ const httpStatusCode = require('./httpStatusCode');
 const salesModel = require('../models/salesModel');
 
 const checkQuantity = async (orderArr) => {
-  const isQuantityNotValidNumber = orderArr.find((item) => item.quantity <= 0);
+  const isQuantityNotValidNumber = await orderArr.find((item) => item.quantity <= 0);
   if (isQuantityNotValidNumber) {
     return {
       error: '"quantity" must be greater than or equal to 1',
       code: httpStatusCode.COULD_NOT_PROCESS,
     };
   }
-  const isQuantityNotDefined = orderArr.find((item) => !item.quantity);
+  const isQuantityNotDefined = await orderArr.find((item) => !item.quantity);
   if (isQuantityNotDefined) {
     return {
       error: '"quantity" is required',
@@ -21,7 +21,7 @@ const checkQuantity = async (orderArr) => {
 };
 
 const checkProductId = async (orderArr) => {
-  const isProductIdNotDefined = orderArr.find((item) => !item.productId);
+  const isProductIdNotDefined = await orderArr.find((item) => !item.productId);
   if (isProductIdNotDefined) {
     return { error: '"productId" is required',
       code: httpStatusCode.BAD_REQUEST,
@@ -52,8 +52,26 @@ const checkSaleId = async (id) => {
   }
 };
 
+const checkArray = async (orderArr) => {
+  orderArr.forEach(async (e) => {
+    if (!e.quantity) {
+      return {
+        error: '"quantity" is required',
+        code: httpStatusCode.BAD_REQUEST,
+      };
+    }
+    if (!e.productId) {
+      return {
+        error: '"productId" is required',
+        code: httpStatusCode.BAD_REQUEST,
+      };
+    }
+  });
+};
+
 module.exports = {
   checkQuantity,
   checkProductId,
   checkSaleId,
+  checkArray,
 };

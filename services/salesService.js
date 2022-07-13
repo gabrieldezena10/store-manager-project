@@ -42,9 +42,31 @@ const exclude = async (id) => {
   return { id };
 };
 
+const update = async (id, orderArr) => {
+  const idNotFound = await checkSaleId(id);
+  if (idNotFound) {
+ return { error: idNotFound.error,
+      code: idNotFound.code }; 
+}
+  const verifyQuantity = await checkQuantity(orderArr);
+  if (verifyQuantity) {
+ return { error: verifyQuantity.error,
+      code: verifyQuantity.code }; 
+}
+  const verifyProductId = await checkProductId(orderArr);
+  if (verifyProductId) {
+ return { error: verifyProductId.error,
+      code: verifyProductId.code }; 
+  }
+  
+  await salesModel.update(id, orderArr);
+  return { saleId: id, itemsUpdated: orderArr };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   exclude,
+  update,
 };

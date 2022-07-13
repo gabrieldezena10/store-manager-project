@@ -58,9 +58,26 @@ const exclude = async (id) => {
   return data;
 };
 
+const update = async (id, orderArr) => {
+  const query = `UPDATE StoreManager.sales_products 
+  SET quantity = ? WHERE sale_id = ? AND product_id = ?`;
+
+  orderArr.map(async ({ productId, quantity }) => {
+    await connection.execute(query, [quantity, id, productId]);
+  });
+
+  const result = {
+    saleId: id,
+    itemsUpdated: orderArr,
+  };
+
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   exclude,
+  update,
 };
