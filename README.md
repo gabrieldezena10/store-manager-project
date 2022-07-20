@@ -26,8 +26,7 @@ Node.js, MySQL, Arquitetura MSC, Mocha, Chai, Sinon.
 <hr></hr>
 
 ## Diagramas
-
-![Diagrama de relacionamentos das tabelas](diagramas-store-manager.png)
+![image](https://user-images.githubusercontent.com/86879421/180061631-8f5959a3-8305-4ae5-9689-2dab532c7620.png)
 
 <i> Imagem disponibilizada pela Trybe </i>
 
