@@ -60,10 +60,21 @@ const exclude = async (req, res) => {
   }
 };
 
+const getByQuery = async (req, res) => {
+  const { q: queryTerm } = req.query;
+  try {
+    const result = await productsService.getByQuery(queryTerm);
+    return res.status(httpStatusCodes.OK).json(result);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   exclude,
+  getByQuery,
 };

@@ -50,10 +50,16 @@ const exclude = async (id) => {
   return { id };
 };
 
+const getByQuery = async (queryTerm) => {
+  const result = await productsModel.getByQuery(queryTerm);
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   exclude,
+  getByQuery,
 };
