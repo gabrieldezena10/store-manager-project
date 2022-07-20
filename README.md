@@ -15,11 +15,41 @@ Node.js, MySQL, Arquitetura MSC, Mocha, Chai, Sinon.
 
 ## Utilização
 
-- Já existe um arquivo `docker-compose.yml` (Disponibilizado pela Trybe). Bastando usar o comando `docker-compose up` para rodar o MySQL e o Node pelo docker.
+- git clone git@github.com:gabrieldezena10/store-manager-project.git
+
+Sem Docker
+
+- npm install
+
+Com Docker
+
+docker-compose-up -d
+
+OBS: É necessário um arquivo .env com as variáveis de ambiente necessárias. O arquivo .env.example é fornecido como referência
+
+#### Dicas de scripts prontos
+
+  - Criar o banco de dados e gerar as tabelas:
+  ```sh
+    npm run migration
+  ```
+
+  - Limpar e popular o banco de dados:
+  ```sh
+    npm run seed
+  ```
+
+  - Iniciar o servidor Node:
+  ```sh
+    npm start
+  ```
+
+  - Iniciar o servidor Node com nodemon:
+  ```sh
+    npm run debug
+  ```
 
 - Os arquivos para criação das tabelas e de seed se encontram nos arquivos `migration.sql` e `seed.sql` respectivamente. E podem ser utilizados em alguma ferramenta de gerenciamento de bancos de dados (como DBeaver ou MySQL Workbench).
-
-- `npm start` para rodar a aplicação usando o node.
 
 - Utilizar alguma Plataforma de API para utilizar os endpoints. Exemplos: Postman, Insomnia, Thunder Client...
 
